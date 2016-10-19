@@ -11,7 +11,7 @@ class Hangman
  Profanity = ['fuck','shit','ass','cunt']
  Adjective = ['foul','repugnant','swift','fast'] 
  Noun = ['king','queen','prince','princess']
- 
+  
  
         def self.start_game
           print "Welcome to Hangman V1 by Clueless! Please select which category of words do you want to use:   \n Profanity, Adjective, Noun "
@@ -49,6 +49,7 @@ class Hangman
       def self.hangman_word_setup(hangman_word)
       hangman_word_array = hangman_word.chars.to_a
        @hangman_end = false
+       @hangman_check = hangman_word_array.length
        #while(@hangman_end == false)
         #puts "*" * 40
         #puts 
@@ -56,7 +57,7 @@ class Hangman
         puts 'You have five tries to get the word correct. If you can guess the whole word do so but you only have one try. Or just guess letter by letter.'
         p hangman_word_array
         @total_tries = 0
-        
+        @correct_tries = 0
         game_check = true
         
         while game_check == true
@@ -66,8 +67,8 @@ class Hangman
         
        if(first_try == hangman_word_array[0] || first_try == hangman_word_array[1] || first_try == hangman_word_array[2] || first_try == hangman_word_array[3] || first_try == hangman_word_array[4])
          puts 'Check'
-         correct_tries += 1
-         p correct_tries
+         @correct_tries += 1
+         p @correct_tries
          #correct tries equal to the number of chars in the given word check it.
         puts 'You have gotten it correct!'
         elsif(first_try == hangman_word)
@@ -77,12 +78,10 @@ class Hangman
          elsif(first_try != hangman_word_array)
          puts  'Wrong.'
                    @total_tries += 1
+                   p  @total_tries
                #puts "*" * 40
-          elsif(correct_tries == hangman_word_array.inspect)
-                  puts 'done.'
-                  break
- 
-         
+          elsif(@correct_tries == @hangman_check)
+                  break         
         end
         end
          end
