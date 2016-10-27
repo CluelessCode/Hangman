@@ -4,7 +4,7 @@
 The word to guess is represented by a row of dashes, representing each letter of the word.
 The hangman word stored in an array or hash?
 =end
-
+require 'active_support'
 
 class Hangman
  
@@ -15,15 +15,15 @@ class Hangman
  
         def self.start_game
           print "Welcome to Hangman V1 by Clueless! Please select which category of words do you want to use:   \n Profanity, Adjective, Noun "
-          @selection = gets.chomp.downcase
+          @SELECTION= gets.chomp.downcase
           case 
-          when @selection == 'profanity'
+          when @SELECTION == 'profanity'
             puts 'You have selected profanity! '
             hangman_word_selection
-         when @selection == 'adjective'
+         when @SELECTION == 'adjective'
            puts 'You have selected Adjectives! '
             hangman_word_selection
-        when @selection == 'noun'
+        when @SELECTION == 'noun'
           puts 'You have selected nouns! '   
               hangman_word_selection
          end 
@@ -31,15 +31,15 @@ class Hangman
 
         def self.hangman_word_selection
        
-         if @selection == 'profanity'
+         if @SELECTION == 'profanity'
            hangman_word = Profanity.sample
            hangman_word_setup(hangman_word)
            #puts '_ ' * hangman_word.size
-         elsif @selection == 'adjective'
+         elsif @SELECTION == 'adjective'
            hangman_word = Adjective.sample
            hangman_word_setup(hangman_word)
          elsif
-                @selection == 'noun'
+                @SELECTION == 'noun'
            hangman_word = Noun.sample
            hangman_word_setup(hangman_word)
     
@@ -56,35 +56,49 @@ class Hangman
         #puts
         puts 'You have five tries to get the word correct. If you can guess the whole word do so but you only have one try. Or just guess letter by letter.'
         p hangman_word_array
-        @total_tries = 0
+        total_tries = 7
         @correct_tries = 0
         game_check = true
+        compare_array = []
         
         while game_check == true
-        first_try = gets.chomp.downcase
+          
+       first_try = gets.chomp.downcase
+       
         
-        
+        puts "#{total_tries} tries left."
         
        if(first_try == hangman_word_array[0] || first_try == hangman_word_array[1] || first_try == hangman_word_array[2] || first_try == hangman_word_array[3] || first_try == hangman_word_array[4])
          puts 'Check'
          @correct_tries += 1
-         p @correct_tries
-         #correct tries equal to the number of chars in the given word check it.
-        puts 'You have gotten it correct!'
-        elsif(first_try == hangman_word)
+          puts 'You have gotten it correct!'
+        total_tries -= 1
+        
+        compare_array.push(first_try)
+ elsif(first_try == hangman_word)
          puts 'You have completed the word! Congratulations you win!'
                   hangman_win
-                  break
-         elsif(first_try != hangman_word_array)
-         puts  'Wrong.'
-                   @total_tries += 1
-                   p  @total_tries
+                      break
                #puts "*" * 40
-          elsif(@correct_tries == @hangman_check)
-                  break         
-        end
-        end
-         end
+               
+             
+  elsif(first_try != hangman_word)
+          puts 'Incorrect.'
+           total_tries -= 1
+                  end
+                  
+if(compare_array.inspect == hangman_word_array.inspect)
+          puts 'Congrats! You win!'
+          hangman_win
+          break;
+                 end
+        
+ if(total_tries <= 0)
+         puts 'You lose.'
+         break;
+       end
+            end
+                 end
         
   
       
