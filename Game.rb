@@ -1,10 +1,24 @@
 
 =begin
 
-The word to guess is represented by a row of dashes, representing each letter of the word.
-The hangman word stored in an array or hash?
+Need to prevent repeat answers that were already scored.
+
+
+
+
 =end
 require 'active_support'
+
+
+
+
+
+
+
+
+
+
+
 
 class Hangman
  
@@ -56,7 +70,7 @@ class Hangman
         #puts
         puts 'You have five tries to get the word correct. If you can guess the whole word do so but you only have one try. Or just guess letter by letter.'
         p hangman_word_array
-        total_tries = 7
+        total_tries = 5
         @correct_tries = 0
         game_check = true
         compare_array = []
@@ -95,6 +109,10 @@ if(compare_array.inspect == hangman_word_array.inspect)
         
  if(total_tries <= 0)
          puts 'You lose.'
+         hangman_loss
+         
+         
+         
          break;
        end
             end
